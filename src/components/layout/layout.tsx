@@ -15,10 +15,10 @@ export default function Layout() {
   }, [location, navigate]);
 
   return (
-    <div className="relative h-full text-black">
+    <div className="text-slate-950">
       <Header />
       <Sidebar />
-      <main className="h-full bg-neutral-50 pl-60 pt-14">
+      <main className="min-h-screen bg-slate-100 pl-60 pt-14">
         <Outlet />
       </main>
     </div>

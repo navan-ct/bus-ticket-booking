@@ -7,7 +7,7 @@ export function SidebarLink(props: SidebarLinkProps) {
     <NavLink
       {...props}
       className={({ isActive }) =>
-        isActive ? 'sidebar-link bg-neutral-100 font-semibold' : 'sidebar-link'
+        isActive ? 'sidebar-link bg-slate-50 font-semibold' : 'sidebar-link font-medium'
       }
     />
   );

@@ -4,7 +4,7 @@ export default function DashboardPage() {
   useTitle('Dashboard - Bus Ticket Booking');
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex w-full items-center justify-center">
       <h1>Dashboard</h1>
     </div>
   );

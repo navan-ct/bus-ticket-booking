@@ -4,6 +4,6 @@
 
 @layer components {
   .sidebar-link {
-    @apply inline-block w-full px-4 py-3 text-base font-medium transition-all;
+    @apply inline-block w-full px-4 py-3 text-base text-slate-800 transition-all;
   }
 }
