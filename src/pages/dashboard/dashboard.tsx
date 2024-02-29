@@ -82,45 +82,49 @@ export default function DashboardPage() {
       <CancelReservationModal seat={seatToCancel} onClose={() => setSeatToCancel(null)} />
 
       <h2 className="mb-0.5 ml-8 self-start text-xs font-semibold uppercase">Reservations</h2>
-      <table className="w-[calc(100%-4rem)] rounded border border-slate-200 bg-white p-6">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="text-left">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
+      <div className="w-[calc(100%-4rem)] overflow-hidden rounded border border-slate-200 bg-white">
+        <table className="w-full">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="border-b border-slate-200">
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} className="px-3 py-2.5 text-left text-base font-semibold">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
 
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="border-b border-slate-200 last:border-b-0">
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="px-3 py-2.5 text-base">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
 
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.footer, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
-      </table>
+          <tfoot>
+            {table.getFooterGroups().map((footerGroup) => (
+              <tr key={footerGroup.id}>
+                {footerGroup.headers.map((header) => (
+                  <th key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.footer, header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </tfoot>
+        </table>
+      </div>
     </div>
   );
 }

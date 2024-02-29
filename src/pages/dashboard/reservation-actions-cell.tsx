@@ -9,8 +9,18 @@ export function ReservationActionsCell({
 }: ReservationActionsCellProps) {
   return (
     <div>
-      <button onClick={onEditClick}>Edit</button>
-      <button onClick={onCancelClick}>Delete</button>
+      <button
+        className="mr-1 rounded-sm bg-amber-400 px-1.5 py-0.5 text-sm font-medium text-white"
+        onClick={onEditClick}
+      >
+        Edit
+      </button>
+      <button
+        className="rounded-sm bg-red-500 px-1.5 py-0.5 text-sm font-medium text-white"
+        onClick={onCancelClick}
+      >
+        Delete
+      </button>
     </div>
   );
 }
