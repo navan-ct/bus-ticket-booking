@@ -20,7 +20,7 @@ export default function Button({
       type={type}
       onClick={onClick}
       className={clsx(
-        'h-9 justify-self-end rounded border px-6 text-base font-medium',
+        'h-9 rounded border px-6 text-base font-medium',
         {
           'border-slate-700 bg-slate-700 text-white': variant === 'primary',
           'border-slate-300 bg-slate-100 text-slate-950': variant === 'secondary'
