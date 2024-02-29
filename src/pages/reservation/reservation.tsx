@@ -15,7 +15,7 @@ export default function ReservationPage() {
 
   const reservations = useSelector(reservationsSelector);
 
-  const bookedSeatsMap = useMemo(() => {
+  const reservedSeatsMap = useMemo(() => {
     const map: Record<string, boolean> = {};
     for (const reservation of reservations) {
       map[reservation.seat] = true;
@@ -42,7 +42,7 @@ export default function ReservationPage() {
                 key={seat}
                 seat={seat}
                 onClick={() => setSelectedSeat(seat)}
-                isBooked={bookedSeatsMap[seat]}
+                isBooked={reservedSeatsMap[seat]}
               />
             ) : (
               <div key={i} />
@@ -55,13 +55,13 @@ export default function ReservationPage() {
             key="L19"
             seat="L19"
             onClick={() => setSelectedSeat('L19')}
-            isBooked={bookedSeatsMap['L19']}
+            isBooked={reservedSeatsMap['L19']}
           />
           <SeatButton
             key="L20"
             seat="L20"
             onClick={() => setSelectedSeat('L20')}
-            isBooked={bookedSeatsMap['L20']}
+            isBooked={reservedSeatsMap['L20']}
           />
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function ReservationPage() {
                 key={seat}
                 seat={seat}
                 onClick={() => setSelectedSeat(seat)}
-                isBooked={bookedSeatsMap[seat]}
+                isBooked={reservedSeatsMap[seat]}
               />
             ) : (
               <div key={i} />
@@ -90,13 +90,13 @@ export default function ReservationPage() {
             key="U19"
             seat="U19"
             onClick={() => setSelectedSeat('U19')}
-            isBooked={bookedSeatsMap['U19']}
+            isBooked={reservedSeatsMap['U19']}
           />
           <SeatButton
             key="U20"
             seat="U20"
             onClick={() => setSelectedSeat('U20')}
-            isBooked={bookedSeatsMap['U20']}
+            isBooked={reservedSeatsMap['U20']}
           />
         </div>
       </div>
