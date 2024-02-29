@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
 
+import ReservationFormModal from '@/components/reservation-form-modal';
 import { useSelector } from '@/hooks/redux';
 import { reservationsSelector } from '@/store/reservation-slice';
 import useTitle from '@/hooks/use-title';
 import getSeats from './get-seats';
 import SeatButton from './seat-button';
 import SteeringIcon from './steering-icon';
-import ReserveTicketModal from './reserve-ticket-modal';
 
 const { lowerDeckSeats, upperDeckSeats } = getSeats();
 
@@ -27,7 +27,7 @@ export default function ReservationPage() {
 
   return (
     <div className="flex w-full flex-col items-center justify-center pb-16 pt-6">
-      <ReserveTicketModal seat={selectedSeat} onClose={() => setSelectedSeat(null)} />
+      <ReservationFormModal seat={selectedSeat} onClose={() => setSelectedSeat(null)} />
 
       <h2 className="mb-0.5 ml-8 self-start text-xs font-semibold uppercase">Lower Deck</h2>
       <div className="mb-6 flex aspect-[3] w-[calc(100%-4rem)] rounded border border-slate-200 bg-white p-6">

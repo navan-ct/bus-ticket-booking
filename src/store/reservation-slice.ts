@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { type StoreDispatch, type StoreState } from './store';
+import store, { type StoreDispatch, type StoreState } from './store';
 
 export type Reservation = {
   seat: string;
@@ -10,12 +10,26 @@ export type Reservation = {
   date: string;
 };
 
+function getReservationsFromStore() {
+  let reservations: Reservation[];
+  const json = localStorage.getItem('reservations');
+  try {
+    if (!json) {
+      throw new Error();
+    }
+    reservations = JSON.parse(json);
+  } catch {
+    reservations = [];
+  }
+  return reservations;
+}
+
 export type ReservationState = {
   reservations: Reservation[];
 };
 
 const initialState: ReservationState = {
-  reservations: []
+  reservations: getReservationsFromStore()
 };
 
 export const reservationSlice = createSlice({
@@ -53,8 +67,28 @@ export const reservationSlice = createSlice({
 export const { addReservation, updateReservation, removeReservation } = reservationSlice.actions;
 
 export function reserveTicket(reservation: Reservation, callback: () => void) {
-  return (dispatch: StoreDispatch) => {
+  return (dispatch: StoreDispatch, getState: typeof store.getState) => {
     dispatch(addReservation(reservation));
+    const state = getState();
+    localStorage.setItem('reservations', JSON.stringify(state.reservation.reservations));
+    callback();
+  };
+}
+
+export function updateReservationDetails(reservation: Reservation, callback: () => void) {
+  return (dispatch: StoreDispatch, getState: typeof store.getState) => {
+    dispatch(updateReservation(reservation));
+    const state = getState();
+    localStorage.setItem('reservations', JSON.stringify(state.reservation.reservations));
+    callback();
+  };
+}
+
+export function cancelReservation(seat: string, callback: () => void) {
+  return (dispatch: StoreDispatch, getState: typeof store.getState) => {
+    dispatch(removeReservation(seat));
+    const state = getState();
+    localStorage.setItem('reservations', JSON.stringify(state.reservation.reservations));
     callback();
   };
 }
