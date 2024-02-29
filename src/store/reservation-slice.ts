@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { type StoreState } from './store';
+import { type StoreDispatch, type StoreState } from './store';
 
 export type Reservation = {
   seat: string;
@@ -22,7 +22,7 @@ export const reservationSlice = createSlice({
   name: 'reservation',
   initialState,
   reducers: {
-    reserveTicket(state, action: PayloadAction<Reservation>) {
+    addReservation(state, action: PayloadAction<Reservation>) {
       const reservation = state.reservations.find(
         (reservation) => reservation.seat === action.payload.seat
       );
@@ -42,7 +42,7 @@ export const reservationSlice = createSlice({
       }
     },
 
-    cancelReservation(state, action: PayloadAction<string>) {
+    removeReservation(state, action: PayloadAction<string>) {
       state.reservations = state.reservations.filter(
         (reservation) => reservation.seat !== action.payload
       );
@@ -50,7 +50,15 @@ export const reservationSlice = createSlice({
   }
 });
 
-export const { reserveTicket, updateReservation, cancelReservation } = reservationSlice.actions;
+export const { addReservation, updateReservation, removeReservation } = reservationSlice.actions;
+
+export function reserveTicket(reservation: Reservation, callback: () => void) {
+  return (dispatch: StoreDispatch) => {
+    dispatch(addReservation(reservation));
+    callback();
+  };
+}
+
 export const reservationsSelector = (state: StoreState) => state.reservation.reservations;
 export const reservationReducer = reservationSlice.reducer;
 export default reservationReducer;

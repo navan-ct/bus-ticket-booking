@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
+import { useSelector } from '@/hooks/redux';
+import { reservationsSelector } from '@/store/reservation-slice';
 import useTitle from '@/hooks/use-title';
 import getSeats from './get-seats';
 import SeatButton from './seat-button';
@@ -10,6 +12,16 @@ const { lowerDeckSeats, upperDeckSeats } = getSeats();
 
 export default function ReservationPage() {
   useTitle('Reservation - Bus Ticket Booking');
+
+  const reservations = useSelector(reservationsSelector);
+
+  const bookedSeatsMap = useMemo(() => {
+    const map: Record<string, boolean> = {};
+    for (const reservation of reservations) {
+      map[reservation.seat] = true;
+    }
+    return map;
+  }, [reservations]);
 
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
 
@@ -26,7 +38,12 @@ export default function ReservationPage() {
         <div className="mr-4 grid flex-shrink-0 flex-grow grid-cols-6 grid-rows-4 gap-4">
           {lowerDeckSeats.map((seat, i) =>
             seat ? (
-              <SeatButton key={seat} seat={seat} onClick={() => setSelectedSeat(seat)} />
+              <SeatButton
+                key={seat}
+                seat={seat}
+                onClick={() => setSelectedSeat(seat)}
+                isBooked={bookedSeatsMap[seat]}
+              />
             ) : (
               <div key={i} />
             )
@@ -34,8 +51,18 @@ export default function ReservationPage() {
         </div>
 
         <div className="grid w-[9%] flex-shrink-0 grid-cols-1 grid-rows-2 gap-4">
-          <SeatButton key="L19" seat="L19" onClick={() => setSelectedSeat('L19')} />
-          <SeatButton key="L20" seat="L20" onClick={() => setSelectedSeat('L20')} />
+          <SeatButton
+            key="L19"
+            seat="L19"
+            onClick={() => setSelectedSeat('L19')}
+            isBooked={bookedSeatsMap['L19']}
+          />
+          <SeatButton
+            key="L20"
+            seat="L20"
+            onClick={() => setSelectedSeat('L20')}
+            isBooked={bookedSeatsMap['L20']}
+          />
         </div>
       </div>
 
@@ -46,7 +73,12 @@ export default function ReservationPage() {
         <div className="mr-4 grid flex-shrink-0 flex-grow grid-cols-6 grid-rows-4 gap-4">
           {upperDeckSeats.map((seat, i) =>
             seat ? (
-              <SeatButton key={seat} seat={seat} onClick={() => setSelectedSeat(seat)} />
+              <SeatButton
+                key={seat}
+                seat={seat}
+                onClick={() => setSelectedSeat(seat)}
+                isBooked={bookedSeatsMap[seat]}
+              />
             ) : (
               <div key={i} />
             )
@@ -54,8 +86,18 @@ export default function ReservationPage() {
         </div>
 
         <div className="grid w-[9%] flex-shrink-0 grid-cols-1 grid-rows-2 gap-4">
-          <SeatButton key="U19" seat="U19" onClick={() => setSelectedSeat('U19')} />
-          <SeatButton key="U20" seat="U20" onClick={() => setSelectedSeat('U20')} />
+          <SeatButton
+            key="U19"
+            seat="U19"
+            onClick={() => setSelectedSeat('U19')}
+            isBooked={bookedSeatsMap['U19']}
+          />
+          <SeatButton
+            key="U20"
+            seat="U20"
+            onClick={() => setSelectedSeat('U20')}
+            isBooked={bookedSeatsMap['U20']}
+          />
         </div>
       </div>
     </div>

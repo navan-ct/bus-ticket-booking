@@ -6,6 +6,7 @@ export type TextInputProps = {
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
+  required?: boolean;
   className?: string;
 };
 
@@ -15,6 +16,7 @@ export default function TextInput({
   value,
   onChange,
   placeholder,
+  required,
   className
 }: TextInputProps) {
   const id = useMemo(() => (label ? label.split(' ').join('-').toLowerCase() : undefined), [label]);
@@ -32,6 +34,7 @@ export default function TextInput({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        required={required}
         className="h-10 rounded-sm border border-slate-700 pl-2 text-base text-slate-950 outline-none transition-all placeholder:text-slate-950/30 focus:ring-1 focus:ring-slate-700"
       />
     </div>

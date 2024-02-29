@@ -3,6 +3,8 @@ import ReactModal from 'react-modal';
 
 import Button from '@/components/button';
 import TextInput from '@/components/text-input';
+import { useDispatch } from '@/hooks/redux';
+import { reserveTicket } from '@/store/reservation-slice';
 
 export type ReserveTicketModalProps = {
   seat: string | null;
@@ -10,18 +12,43 @@ export type ReserveTicketModalProps = {
 };
 
 export function ReserveTicketModal({ seat, onClose }: ReserveTicketModalProps) {
+  const dispatch = useDispatch();
+
   const [deferredSeat, setDeferredSeat] = useState<string | null>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    const id = setTimeout(() => setDeferredSeat(seat), 200);
+    if (seat) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    const id = setTimeout(() => {
+      setDeferredSeat(seat);
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+
+      if (!seat) {
+        document.body.style.overflow = '';
+      }
+    }, 200);
+
     return () => clearTimeout(id);
   }, [seat]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const reservation = {
+      seat: seat!,
+      firstName,
+      lastName,
+      email,
+      date: new Date().toISOString()
+    };
+    dispatch(reserveTicket(reservation, onClose));
   }
 
   return (
@@ -29,7 +56,8 @@ export function ReserveTicketModal({ seat, onClose }: ReserveTicketModalProps) {
       isOpen={seat !== null}
       onRequestClose={onClose}
       closeTimeoutMS={150}
-      portalClassName="ReactModalPortal relative z-40 text-slate-950"
+      ariaHideApp={false}
+      portalClassName="ReactModalPortal relative z-40 overflow-hidden text-slate-950"
       overlayClassName="fixed inset-0 bg-slate-950/40"
       className="absolute left-1/2 top-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-auto rounded bg-white px-6 pb-6 pt-5 outline-none"
     >
@@ -47,12 +75,14 @@ export function ReserveTicketModal({ seat, onClose }: ReserveTicketModalProps) {
             value={firstName}
             onChange={(event) => setFirstName(event.target.value)}
             placeholder="John"
+            required
           />
           <TextInput
             label="Last Name"
             value={lastName}
             onChange={(event) => setLastName(event.target.value)}
             placeholder="Doe"
+            required
           />
         </div>
 
@@ -63,6 +93,7 @@ export function ReserveTicketModal({ seat, onClose }: ReserveTicketModalProps) {
           onChange={(event) => setEmail(event.target.value)}
           className="mb-6"
           placeholder="johndoe@example.com"
+          required
         />
 
         <div className="flex justify-end gap-x-2">

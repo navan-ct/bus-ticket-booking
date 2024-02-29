@@ -9,7 +9,7 @@ export type ButtonProps = {
 };
 
 export default function Button({
-  type,
+  type = 'button',
   variant = 'primary',
   onClick,
   className,
