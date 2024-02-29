@@ -33,14 +33,12 @@ export default function ReservationFormModal({ isEdit, seat, onClose }: Reservat
 
     if (seat) {
       setDeferredSeat(seat);
-      document.body.style.overflow = 'hidden';
     } else {
       id = setTimeout(() => {
         setDeferredSeat(null);
         setFirstName('');
         setLastName('');
         setEmail('');
-        document.body.style.overflow = '';
       }, 200);
     }
 

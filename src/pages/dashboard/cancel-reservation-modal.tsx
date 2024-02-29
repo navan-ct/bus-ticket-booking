@@ -20,12 +20,8 @@ export function CancelReservationModal({ seat, onClose }: CancelReservationModal
 
     if (seat) {
       setDeferredSeat(seat);
-      document.body.style.overflow = 'hidden';
     } else {
-      id = setTimeout(() => {
-        setDeferredSeat(null);
-        document.body.style.overflow = '';
-      }, 200);
+      id = setTimeout(() => setDeferredSeat(null), 200);
     }
 
     return () => {
